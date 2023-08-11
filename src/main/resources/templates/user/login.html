@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인하기</title>
+    <link rel="stylesheet" href="/css/login.css"/>
+    <script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+
+        // HTML로딩이 완료되고, 실행됨
+        $(document).ready(function () {
+
+            // 회원가입
+            $("#btnUserReg").on("click", function () { // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
+                location.href = "/user/userRegForm";
+            })
+
+        })
+
+        function checkInputData() {
+            let f = document.getElementById("f"); // form 태그
+
+            if (f.user_id.value === "") {
+                alert("아이디를 입력하세요.");
+                f.user_id.focus();
+                return false;
+            }
+
+            if (f.password.value === "") {
+                alert("비밀번호를 입력하세요.");
+                f.password.focus();
+                return false;
+            }
+
+        }
+    </script>
+</head>
+<body>
+<form action="/user/loginProc" method="post" onsubmit="checkInputData()" id="f" >
+    <div class="login-box">
+        <div class="lb-header">
+            <a href="/user/login" class="active" id="login-box-link">Login</a>
+        </div>
+            <div class="u-form-group">
+                <input type="text" name="user_id" placeholder="Id"/>
+            </div>
+            <div class="u-form-group">
+                <input type="password" name="password" placeholder="Password"/>
+            </div>
+            <div class="u-form-group">
+                <button id="btnLogin" type="submit">login</button>
+            </div>
+            <div class="u-form-group">
+                <button id="btnUserReg" type="button">Sign up</button>
+            </div>
+    </div>
+</form>
+</body>
+</html>

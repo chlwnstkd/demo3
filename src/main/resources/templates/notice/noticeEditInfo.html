@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>공지사항 수정하기</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/templatemo.css">
+    <link rel="stylesheet" href="/css/css.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <script th:inline="javascript">
+        // HTML로딩이 완료되고, 실행됨
+        $(document).ready(function () {
+            // 버튼 클릭했을때, 발생되는 이벤트 생성함(onclick 이벤트와 동일함)
+            $("#btnSend").on("click", function () {
+                doSubmit(); // 공지사항 수정하기 실행
+            })
+        })
+
+        //글자 길이 바이트 단위로 체크하기(바이트값 전달)
+        function calBytes(str) {
+            let tcount = 0;
+            let tmpStr = String(str);
+            let strCnt = tmpStr.length;
+            let onechar;
+            for (let i = 0; i < strCnt; i++) {
+                onechar = tmpStr.charAt(i);
+                if (escape(onechar).length > 4) {
+                    tcount += 2;
+                } else {
+                    tcount += 1;
+                }
+            }
+            return tcount;
+        }
+
+        function doSubmit() {
+
+            let f = document.getElementById("f"); // form 태그
+
+            if (f.title.value === "") {
+                alert("제목을 입력하시기 바랍니다.");
+                f.title.focus();
+                return;
+            }
+            if (calBytes(f.title.value) > 200) {
+                alert("최대 200Bytes까지 입력 가능합니다.");
+                f.title.focus();
+                return;
+            }
+            if (f.contents.value === "") {
+                alert("내용을 입력하시기 바랍니다.");
+                f.contents.focus();
+                return;
+            }
+            if (calBytes(f.contents.value) > 4000) {
+                alert("최대 4000Bytes까지 입력 가능합니다.");
+                f.contents.focus();
+                return;
+            }
+
+        }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">info@company.com</a>
+                <i class="fa fa-phone mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
+            </div>
+            <div>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin fa-sm fa-fw"></i></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- Close Top Nav -->
+
+
+<!-- Header -->
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+
+        <a class="navbar-brand text-success logo h1 align-self-center" href="/main/index">
+            Poly
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="flex-fill">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/main/index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/main/about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/main/shop">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/main/contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/notice/noticeList">Notice</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
+                        <div class="input-group-text">
+                            <i class="fa fa-fw fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
+                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                </a>
+                <a class="nav-icon position-relative text-decoration-none" href="/main/purchaseList">
+                    <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1" data-bs-toggle="modal" data-bs-target="#templatemo_cart"></i>
+                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</nav>
+<form action="/notice/noticeUpdate" method="post" name="f" id="f">
+    <input type="hidden" name="nSeq" th:value="${rDTO.notice_seq}"/>
+    <div class="board_wrap">
+        <div class="board_write_wrap">
+            <div class="board_write">
+                <div class="title">
+                    <div class="title">
+                        <dl>
+                            <dt>제목</dt>
+                            <dd><input type="text" id="title" name="title" value=""></dd>
+                        </dl>
+                    </div>
+                    <div class="info">
+                        <div class="cont">
+                            <textarea name="contents" placeholder="내용 입력">[[${rDTO.contents}]]</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="bt_wrap">
+                <a id="btnSend" type="submit" onclick="document.getElementById('f').submit();" class="on">수정</a>
+                <a href="/notice/noticeList">취소</a>
+            </div>
+        </div>
+    </div>
+</form>
+<footer class="bg-dark" id="tempaltemo_footer">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-success border-bottom pb-3 border-light logo">Poly Shop</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li>
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                        123 Consectetur at ligula 10660
+                    </li>
+                    <li>
+                        <i class="fa fa-phone fa-fw"></i>
+                        <a class="text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope fa-fw"></i>
+                        <a class="text-decoration-none" href="mailto:info@company.com">info@company.com</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">Products</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="#">Luxury</a></li>
+                    <li><a class="text-decoration-none" href="#">Sport Wear</a></li>
+                    <li><a class="text-decoration-none" href="#">Men's Shoes</a></li>
+                    <li><a class="text-decoration-none" href="#">Women's Shoes</a></li>
+                    <li><a class="text-decoration-none" href="#">Popular Dress</a></li>
+                    <li><a class="text-decoration-none" href="#">Gym Accessories</a></li>
+                    <li><a class="text-decoration-none" href="#">Sport Shoes</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="#">Home</a></li>
+                    <li><a class="text-decoration-none" href="#">About Us</a></li>
+                    <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
+                    <li><a class="text-decoration-none" href="#">FAQs</a></li>
+                    <li><a class="text-decoration-none" href="#">Contact</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="row text-light mb-4">
+            <div class="col-12 mb-3">
+                <div class="w-100 my-3 border-top border-light"></div>
+            </div>
+            <div class="col-auto me-auto">
+                <ul class="list-inline text-left footer-icons">
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+                    </li>
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
+                    </li>
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
+                    </li>
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a class="text-light text-decoration-none" target="_blank" href="https://www.linkedin.com/"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-auto">
+                <label class="sr-only" for="subscribeEmail">Email address</label>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="Email address">
+                    <div class="input-group-text btn-success text-light">Subscribe</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-100 bg-black py-3">
+        <div class="container">
+            <div class="row pt-2">
+                <div class="col-12">
+                    <p class="text-left text-light">
+                        Copyright &copy; 2021 Company Name
+                        | Designed by <a rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
+<!-- End Footer -->
+
+<!-- Start Script -->
+<script src="/js/jquery-1.11.0.min.js"></script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/templatemo.js"></script>
+<script src="/js/custom.js"></script>
+<script>
+    document.getElementById("title").value = [[${rDTO.title}]];
+</script>
+<!-- End Script -->
+</body>
+</html>
